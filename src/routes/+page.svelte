@@ -2,7 +2,7 @@
 	import Icon from './../comps/Icon.svelte';
   import { initSlider } from "$lib/slider"
 
-  let count = 10
+  let count = 3
 
   let numberArray = Array.from({length: count}, (_, i) => i + 1)
 
@@ -45,6 +45,9 @@
           </div>
         </div>
       {/each}
+      <div class="r-20 p-15+5 rel gap-15 flex-col flex-center">
+        <p>Ви долистали до кінця</p>
+      </div>
     </div>
 
 
@@ -64,7 +67,7 @@
   .slider > div {
     position: absolute;
     width: 90%; 
-    /* height: 60vh; */
+    height: 490px;
     background-color: #393E46;
   }
   
