@@ -61,7 +61,7 @@ export function initSlider(slider) {
       len = len - offset;
     }
 
-    if (Math.abs(force) > 10) {
+    if (Math.abs(force) > 15) {
       len = force < 0 ? len + step : len - step
     }
 
@@ -89,15 +89,15 @@ export function initSlider(slider) {
   /*************************************/
 
   let last_force = 0
-
+  let max_force = 40
 
   function move(e, once) {
     if (mouse || once) {
       last_force = e.movementY
-      let max_force = 40
-      if (Math.abs(last_force) > max_force) {
-        return
-      }
+      
+
+      if (Math.abs(last_force) > max_force) return
+      
       len -= e.movementY / (innerHeight / 30);
       len = len > 0 ? len : 0;
 
@@ -124,8 +124,10 @@ export function initSlider(slider) {
           opc = 1 - -loc_pos / 30;
         }
 
-        slide.style.transform = `translate3d(0,${pos}px,0) scale3d(${scl},${scl},1) rotate(${rot}deg)`;
-        slide.style.filter = `opacity(${opc})`;
+        slide.style.transform = 
+        `translate3d(0,${pos}px,0) scale3d(${scl},${scl},1) rotate(${rot}deg)`;
+        slide.style.filter = 
+        `opacity(${opc})`;
       }
     }
   }
