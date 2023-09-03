@@ -1,0 +1,66 @@
+
+:root {
+  --font-main: Montserrat, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #232931;
+  overflow: hidden;
+}
+
+body * {
+  color: #eee;
+  
+}
+
+button {
+  background: none;
+}
+
+
+
+
+
+
+.trans div {
+  transition: all var(--time, 100ms);
+}
+
+
+/* .slider { */
+  /* position: relative; */
+  /* width:  100%;
+  height: 100%; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  overflow: hidden; */
+/* } */
+
+
+/* .slider div {
+  position: absolute;
+  width: 300px; 
+  height: 420px;
+  background-color: #8f9eeb;
+  border-radius: 10px;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider div p {
+  font-size: 50px;
+  color: white;
+  user-select: text;
+}
+
+.trans div {
+  transition: all var(--time, 100ms);
+} */
