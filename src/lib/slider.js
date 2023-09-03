@@ -48,7 +48,7 @@ export function initSlider(slider) {
 
   /*************************************/
 
-  function fixed_slide() {
+  function fixed_slide(force) {
     mouse = false;
     let offset = len % step;
 
@@ -60,8 +60,20 @@ export function initSlider(slider) {
       len = len - offset;
     }
 
+    if (Math.abs(force) > 5) {
+      if (force < 0) {
+        len += step
+      }
+      else {
+        len -= step
+      }
+    }
+
     len = len <= max_index ? len : max_index;
     len = len >= 0 ? len : 0;
+
+    
+    console.log(len, Math.abs(force));
 
     document.querySelector(".active").classList.remove("active");
     let active = document.querySelector(`[data-index="${len}"]`);
@@ -80,10 +92,15 @@ export function initSlider(slider) {
 
   /*************************************/
 
+  let last_force = 0
+
+
   function move(e, once) {
     if (mouse || once) {
-      len -= e.movementY / (innerHeight / 75);
+      len -= e.movementY / (innerHeight / 50);
       len = len > 0 ? len : 0;
+
+      last_force = e.movementY
 
       for (const slide of pair) {
         if (!slide) continue;
@@ -115,6 +132,7 @@ export function initSlider(slider) {
   /*************************************/
 
   slider.addEventListener("mousedown", () => {
+    
     if (can_move) mouse = true;
   });
 
@@ -122,13 +140,15 @@ export function initSlider(slider) {
     if (can_move) mouse = true;
   });
   slider.addEventListener("mouseup", () => {
+    
     previousTouch = null;
     fixed_slide();
   });
 
   slider.addEventListener("touchend", () => {
+    // console.log(last_force);
     previousTouch = null;
-    fixed_slide();
+    fixed_slide(last_force);
   });
 
   /*************************************/
