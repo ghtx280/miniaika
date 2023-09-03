@@ -49,7 +49,7 @@ export function initSlider(slider) {
   /*************************************/
 
   function fixed_slide(force) {
-    // alert(force)
+    alert(force)
     mouse = false;
     let offset = len % step;
 
@@ -69,7 +69,7 @@ export function initSlider(slider) {
     len = len >= 0 ? len : 0;
 
     
-    console.log(len, Math.abs(force));
+    // console.log(len, Math.abs(force));
 
     document.querySelector(".active").classList.remove("active");
     let active = document.querySelector(`[data-index="${len}"]`);
@@ -79,11 +79,13 @@ export function initSlider(slider) {
     slider.classList.add("trans");
     move({ movementY: -1 }, true);
     can_move = false;
-    setTimeout(() => {
-      // console.log("ok");
-      slider.classList.remove("trans");
-      can_move = true;
-    }, transition_time);
+    setTimeout(
+      () => {
+        slider.classList.remove("trans");
+        can_move = true;
+      },
+      transition_time
+    );
   }
 
   /*************************************/
@@ -95,13 +97,10 @@ export function initSlider(slider) {
     if (mouse || once) {
       last_force = e.movementY
       
-
       if (Math.abs(last_force) > max_force) return
       
       len -= e.movementY / (innerHeight / 30);
       len = len > 0 ? len : 0;
-
-      
 
       for (const slide of pair) {
         if (!slide) continue;
