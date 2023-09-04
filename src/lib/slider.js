@@ -48,10 +48,14 @@ export function initSlider(slider) {
 
   /*************************************/
 
+  let last_len = 0
+
   function fixed_slide(force) {
-    alert(force)
+    // alert(force)
     mouse = false;
     let offset = len % step;
+
+    // console.log(last_len, len);
 
     // console.log(len, max_index, offset, step / 2);
 
@@ -61,15 +65,26 @@ export function initSlider(slider) {
       len = len - offset;
     }
 
-    if (Math.abs(force) > 15) {
+    if (Math.abs(force) > 0) {
       len = force < 0 ? len + step : len - step
     }
 
     len = len <= max_index ? len : max_index;
     len = len >= 0 ? len : 0;
 
+    console.log(len < last_len - step);
+
+    if (len > last_len + step) {
+      len = last_len + step;
+    }
+
+    if (len < last_len - step) {
+      len = last_len - step;
+    }
+
     
     // console.log(len, Math.abs(force));
+    last_len = len
 
     document.querySelector(".active").classList.remove("active");
     let active = document.querySelector(`[data-index="${len}"]`);
@@ -92,6 +107,7 @@ export function initSlider(slider) {
 
   let last_force = 0
   let max_force = 40
+  
 
   function move(e, once) {
     if (mouse || once) {
@@ -99,7 +115,7 @@ export function initSlider(slider) {
       
       if (Math.abs(last_force) > max_force) return
       
-      len -= e.movementY / (innerHeight / 30);
+      len -= e.movementY / (innerHeight / 40);
       len = len > 0 ? len : 0;
 
       for (const slide of pair) {

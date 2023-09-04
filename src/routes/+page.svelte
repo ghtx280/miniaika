@@ -67,8 +67,9 @@
   .slider > div {
     position: absolute;
     width: 90%; 
-    height: 490px;
+    min-height: 500px;
     background-color: #393E46;
+    padding-bottom: 20px;
   }
   
 </style>
