@@ -1,10 +1,17 @@
 <script>
 	import Icon from './../comps/Icon.svelte';
   import { initSlider } from "$lib/slider"
+  import { onMount } from 'svelte';
 
   let count = 3
 
   let numberArray = Array.from({length: count}, (_, i) => i + 1)
+
+  let ok = false
+
+  onMount(()=>{
+    ok = true
+  })
 
 </script>
 
@@ -13,7 +20,8 @@
     <img src="logo.svg" alt="miniaika" class="h-20">
   </div>
 
-
+  {#if ok}
+    
     <div class="slider grow flex-center over-hidden" use:initSlider>
       {#each numberArray as item}
         <div class="r-20 p-15+5 rel gap-15 flex-col">
@@ -50,6 +58,16 @@
       </div>
     </div>
 
+  {:else}
+    
+    <div class="grow flex-center">
+
+      <p class="fs-24 bold">Зачекайте...</p>
+
+    </div>
+  
+  {/if}
+
 
   <div class="flex-space px-25">
     <a href="#/"><Icon name="home" active /></a>
@@ -70,6 +88,14 @@
     min-height: 500px;
     background-color: #393E46;
     padding-bottom: 20px;
+    will-change: transform;
+  }
+
+  @media (min-width: 992px) {
+    .slider > div {
+      width: 400px; 
+
+    }
   }
   
 </style>

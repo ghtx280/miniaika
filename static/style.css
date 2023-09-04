@@ -27,7 +27,7 @@ button {
 
 
 .trans div {
-  transition: var(--time, 100ms);
+  transition: all var(--time, 100ms) ease;
 }
 
 

@@ -1,4 +1,4 @@
-export function initSlider(slider) {
+export async function initSlider(slider) {
   // console.log(JSON.stringify(slider.children));
   
   let max_index = 0;
@@ -23,8 +23,13 @@ export function initSlider(slider) {
     max_index = slides_count * step;
     slide.dataset.index = slides_count * step;
     slide.dataset.angle = (turn ? "-" : "") + (Math.random() * 3).toFixed(2);
+
     slide.style.transform = `translate3d(0,1000px,0)`;
     slide.style.filter = "opacity(0)";
+
+    // slide.style.transform = `translateY(1000px)`;
+    // slide.style.opacity = 0;
+
     turn = !turn;
     slides_count++;
   }
@@ -65,14 +70,14 @@ export function initSlider(slider) {
       len = len - offset;
     }
 
-    if (Math.abs(force) > 0) {
+    if (Math.abs(force) > 5) {
       len = force < 0 ? len + step : len - step
     }
 
     len = len <= max_index ? len : max_index;
     len = len >= 0 ? len : 0;
 
-    console.log(len < last_len - step);
+    // console.log(len < last_len - step);
 
     if (len > last_len + step) {
       len = last_len + step;
@@ -113,15 +118,15 @@ export function initSlider(slider) {
     if (mouse || once) {
       last_force = e.movementY
       
-      if (Math.abs(last_force) > max_force) return
+      // if (Math.abs(last_force) > max_force) return
       
       len -= e.movementY / (innerHeight / 40);
       len = len > 0 ? len : 0;
 
       for (const slide of pair) {
         if (!slide) continue;
-        let loc_pos = (len - slide.dataset.index).toFixed(1);
-        let angle = (+slide.dataset.angle).toFixed(1);
+        let loc_pos = len - slide.dataset.index;
+        let angle = +slide.dataset.angle;
         let pos;
         let scl;
         let rot;
@@ -129,9 +134,9 @@ export function initSlider(slider) {
 
         if (loc_pos > 0) {
           pos = -loc_pos;
-          scl = 1 - (loc_pos / 100) * 0.3;
-          rot = ((loc_pos * angle) / 40).toFixed(1);
-          opc = (1 - (loc_pos / 100) * 1.3).toFixed(1);
+          scl = -loc_pos * 2
+          rot = (loc_pos * angle) / 40
+          opc = 1 - (loc_pos / 100) * 1.3;
         } else {
           pos = -loc_pos * 20;
           scl = 1;
@@ -139,29 +144,39 @@ export function initSlider(slider) {
           opc = 1 - -loc_pos / 30;
         }
 
-        slide.style.transform = 
-        `translate3d(0,${pos}px,0) scale3d(${scl},${scl},1) rotate(${rot}deg)`;
-        slide.style.filter = 
-        `opacity(${opc})`;
+        // slide.style.transform = 
+        // `translate3d(0,${pos}px,0) scale3d(${scl},${scl},1) rotate(${rot}deg)`;
+        // slide.style.filter = 
+        // `opacity(${opc})`;
+
+        slide.style.transform = `perspective(500px)
+        translate3d(0, ${pos * 1.2}px, ${scl}px)
+        rotateZ(${rot}deg)`;
+
+        slide.style.filter = `opacity(${opc})`;
+
+        // slide.style.transform = 
+        // `translateY(${pos}px) scale(${scl}) rotate(${rot}deg)`;
+        // slide.style.opacity = opc
       }
     }
   }
 
   /*************************************/
 
-  slider.addEventListener("mousedown", () => {
+  // slider.addEventListener("mousedown", () => {
     
-    if (can_move) mouse = true;
-  });
+  //   if (can_move) mouse = true;
+  // });
 
   slider.addEventListener("touchstart", () => {
     if (can_move) mouse = true;
   });
-  slider.addEventListener("mouseup", () => {
+  // slider.addEventListener("mouseup", () => {
     
-    previousTouch = null;
-    fixed_slide();
-  });
+  //   previousTouch = null;
+  //   fixed_slide();
+  // });
 
   slider.addEventListener("touchend", () => {
     // console.log(last_force);
@@ -184,11 +199,18 @@ export function initSlider(slider) {
     previousTouch = touch;
   });
 
-  slider.addEventListener("mousemove", move);
+  // slider.addEventListener("mousemove", move);
+
+  slider.addEventListener("wheel", e => {
+    console.log(e.deltaY > 0 ? -6 : 6);
+    if (can_move) fixed_slide(e.deltaY > 0 ? -6 : 6);
+  })
 
   /*************************************/
 
   move({ movementY: -1 }, true);
+
+  return "ok"
 }
 
 // if (loc_pos > 0) {
