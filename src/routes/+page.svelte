@@ -35,7 +35,7 @@
   function setupSlider(node) {
     initSlider(node, {
       len,
-      duration: 200,
+      // duration: 300,
       onchange(len) {
         $store.len = len
         // console.log(len);

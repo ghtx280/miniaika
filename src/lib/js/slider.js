@@ -6,7 +6,7 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
 
   /*************************************/
 
-  let pair;
+  let group;
   let mouse = false;
   let count = 0;
   let slides = slider.children;
@@ -63,7 +63,7 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
   function setupSlide(slide) {
     slide.dataset.index = max_len;
     slide.dataset.angle = count % 2 ? -2 : 2
-    slide.style.transform = `translate3d(0,0,0)`;
+    slide.style.transform = `translate3d(0,1000px,0)`;
     slide.style.filter = "opacity(0)";
   }
 
@@ -118,21 +118,21 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
     // document.querySelector(".active")?.classList.remove("active");
     let active = document.querySelector(`[data-index="${len}"]`);
     // active?.classList.add("active");
-    pair = getPair(active);
+    group = getPair(active);
 
-    for (const elem of slider.querySelectorAll(".pair") || []) {
-      elem?.classList.remove("pair");
+    for (const elem of slider.querySelectorAll(".group") || []) {
+      elem?.classList.remove("group");
     }
 
-    for (const elem of pair) {
-      elem?.classList.add("pair");
+    for (const elem of group) {
+      elem?.classList.add("group");
     }
     
     if (force == null || (!anim || !duration)) {
       move({ movementY: 0 }, true);
       return
     }
-    // for (const elem of pair) {
+    // for (const elem of group) {
     //   elem.classList.add("fff")
     // }
     slider?.classList.add("trans");
@@ -141,7 +141,7 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
     setTimeout(
       () => {
         slider.classList?.remove("trans");
-        // for (const elem of pair) {
+        // for (const elem of group) {
         //   elem.classList.remove("fff")
         // }
         can_move = true;
@@ -164,7 +164,7 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
       
       len -= e.movementY / (innerHeight / (len < 0 || len > max_len ? divisor / 8 : divisor));
 
-      for (const slide of pair) {
+      for (const slide of group) {
         if (!slide) continue;
         let loc_pos = round(len - slide.dataset.index)
         let angle = +slide.dataset.angle;
@@ -179,14 +179,14 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
           rot = loc_pos * angle / 40
           opc = 1 - round(loc_pos / step) / 3
         } else {
-          pos = -loc_pos * 15;
+          pos = -loc_pos * 20;
           scl = 1;
           rot = 0;
           opc = 1 - -loc_pos / 30;
         }
 
         slide.style.transform = `perspective(500px)
-        translate3d(0, ${pos}px, ${scl}px)
+        translate3d(0, ${pos / 6}vh, ${scl / 7}vh)
         rotateZ(${rot}deg)`;
 
         slide.style.filter = `opacity(${opc})`;

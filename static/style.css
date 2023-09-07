@@ -1,6 +1,7 @@
 
 :root {
   --font-main: Montserrat, sans-serif;
+  
 }
 
 html, body {
@@ -40,13 +41,15 @@ button {
 }
 
 
-.trans > div.pair {
+.trans > div.group {
+  --cubic: cubic-bezier(0, 1, 1, 1);
+
   transition:
-    transform var(--time, 100ms) linear,
-    filter var(--time, 100ms) linear;
+    transform var(--time, 100ms) var(--cubic),
+    filter var(--time, 100ms) var(--cubic);
 }
 
-.slider > div:not(.pair) {
+.slider > div:not(.group) {
   display: none;
 }
 
