@@ -5,7 +5,7 @@
 
 <div class="h-full flex-col p-15+10">
   <div class="flex-center p-10">
-    <img src="logo.svg" alt="miniaika" class="h-20">
+    <img src="/logo.svg" alt="miniaika" class="h-20">
   </div>
 
   <div class="grow">

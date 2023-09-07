@@ -1,70 +1,95 @@
-export function initSlider(slider) {
-  // console.log(JSON.stringify(slider.children));
-
-  // console.log([slider]);
-  
-  let max_index = 0;
-  let step = 30;
-  let turn = true;
-  let len = 0;
-  let mouse = false;
-  let can_move = true;
-  let transition_time = 200;
+export function initSlider(slider = document.querySelector("#slider"), params = {}) {
+  let len  = params.len || 0;
+  let last_len = params.len || 0;
+  let step = params.step || 30;
+  let duration = params.duration || 200;
 
   /*************************************/
 
+  let pair;
+  let mouse = false;
+  let count = 0;
   let slides = slider.children;
-  let slides_count = 0;
+  let max_len = 0;
+  let can_move = true;
+  let last_force = 0
+  let previous_touch;
+
+  /*************************************/
+
+  new MutationObserver(e => {
+    count = 0
+    max_len = 0
+    
+    for (const slide of slides) {
+      max_len = count * step;
+      setupSlide(slide)
+      count++;
+    }
+
+    
+
+    // count = slides.length - 1
+    // max_len = count * step
+
+    // for (const elem of slides) {
+    //   if (!elem.dataset.index) {
+    //     setupSlide(elem)
+    //   }
+    // }
+
+    setCenter(null)
+  })
+  .observe(slider, {childList: true})
 
 
-
-  slider.style = `--time: ${transition_time}ms`;
-  slides[0].classList.add("active");
-
-  for (const slide of slides) {
-    max_index = slides_count * step;
-    slide.dataset.index = slides_count * step;
-    slide.dataset.angle = (turn ? "-" : "") + (Math.random() * 3).toFixed(2);
-
-    slide.style.transform = `translate3d(0,1000px,0)`;
-    slide.style.filter = "opacity(0)";
-
-    // slide.style.transform = `translateY(1000px)`;
-    // slide.style.opacity = 0;
-
-    turn = !turn;
-    slides_count++;
+  if (localStorage.len) {
+    len = +localStorage.len
+    last_len = len
   }
 
   /*************************************/
 
+  slider.style = `--time: ${duration}ms`;
+
+  for (const slide of slides) {
+    max_len = count * step;
+    setupSlide(slide)
+    count++;
+  }
+
+  /*************************************/
+
+  function setupSlide(slide) {
+    slide.dataset.index = max_len;
+    slide.dataset.angle = count % 2 ? -2 : 2
+    slide.style.transform = `translate3d(0,1000px,0)`;
+    slide.style.filter = "opacity(0)";
+  }
+
+  function throttle(func, timeout = 50) {
+    let last = 0;
+
+    return function(...args) {
+      const now = Date.now();
+      if (now - last > timeout) func(...args) 
+      last = now;
+    }
+  }
+
   function getPair(elem) {
-    // console.log(elem);
-    let active = elem || document.querySelector(".active");
+    let active = elem || document.querySelector(`[data-index="${len}"]`);
     let next   = active?.nextElementSibling;
     let prev1  = active?.previousElementSibling;
     let prev2  = prev1?.previousElementSibling;
+    let prev3  = prev2?.previousElementSibling;
 
-    return [prev2, prev1, active, next];
+    return [prev3, prev2, prev1, active, next];
   }
 
-  /*************************************/
-
-  let pair = getPair();
-
-
-  /*************************************/
-
-  let last_len = 0
-
-  function fixed_slide(force) {
-    // alert(force)
+  function setCenter(force, anim = true) {
     mouse = false;
     let offset = len % step;
-
-    // console.log(last_len, len);
-
-    // console.log(len, max_index, offset, step / 2);
 
     if (offset > step / 2) {
       len = len + (step - offset);
@@ -76,10 +101,8 @@ export function initSlider(slider) {
       len = force < 0 ? len + step : len - step
     }
 
-    len = len <= max_index ? len : max_index;
+    len = len <= max_len ? len : max_len;
     len = len >= 0 ? len : 0;
-
-    // console.log(len < last_len - step);
 
     if (len > last_len + step) {
       len = last_len + step;
@@ -89,45 +112,48 @@ export function initSlider(slider) {
       len = last_len - step;
     }
 
-    
-    // console.log(len, Math.abs(force));
+    len = Math.round(len)
     last_len = len
 
-    document.querySelector(".active").classList.remove("active");
+    // document.querySelector(".active")?.classList.remove("active");
     let active = document.querySelector(`[data-index="${len}"]`);
-    active.classList.add("active");
+    // active?.classList.add("active");
     pair = getPair(active);
-
-    slider.classList.add("trans");
-    move({ movementY: -1 }, true);
+    
+    if (force == null || (!anim || !duration)) {
+      move({ movementY: 0 }, true);
+      return
+    }
+    
+    slider?.classList.add("trans");
+    move({ movementY: 0 }, true);
     can_move = false;
     setTimeout(
       () => {
-        slider.classList.remove("trans");
+        slider.classList?.remove("trans");
         can_move = true;
       },
-      transition_time
+      duration
     );
+
+    params?.onchange(len)
   }
 
-  /*************************************/
-
-  let last_force = 0
-  let max_force = 40
-  
+  function round(num, fix = 10) {
+    return Math.round(num * fix) / fix
+  }
 
   function move(e, once) {
     if (mouse || once) {
+      let divisor = 40
+
       last_force = e.movementY
       
-      // if (Math.abs(last_force) > max_force) return
-      
-      len -= e.movementY / (innerHeight / 40);
-      len = len > 0 ? len : 0;
+      len -= e.movementY / (innerHeight / (len < 0 || len > max_len ? divisor / 8 : divisor));
 
       for (const slide of pair) {
         if (!slide) continue;
-        let loc_pos = len - slide.dataset.index;
+        let loc_pos = round(len - slide.dataset.index)
         let angle = +slide.dataset.angle;
         let pos;
         let scl;
@@ -135,10 +161,10 @@ export function initSlider(slider) {
         let opc;
 
         if (loc_pos > 0) {
-          pos = -loc_pos;
+          pos = -loc_pos * 1.3;
           scl = -loc_pos * 2
-          rot = (loc_pos * angle) / 40
-          opc = 1 - (loc_pos / 100) * 1.3;
+          rot = loc_pos * angle / 40
+          opc = 1 - round(loc_pos / step) / 3
         } else {
           pos = -loc_pos * 20;
           scl = 1;
@@ -146,70 +172,51 @@ export function initSlider(slider) {
           opc = 1 - -loc_pos / 30;
         }
 
-        // slide.style.transform = 
-        // `translate3d(0,${pos}px,0) scale3d(${scl},${scl},1) rotate(${rot}deg)`;
-        // slide.style.filter = 
-        // `opacity(${opc})`;
-
         slide.style.transform = `perspective(500px)
-        translate3d(0, ${pos * 1.2}px, ${scl}px)
+        translate3d(0, ${pos}px, ${scl}px)
         rotateZ(${rot}deg)`;
 
         slide.style.filter = `opacity(${opc})`;
-
-        // slide.style.transform = 
-        // `translateY(${pos}px) scale(${scl}) rotate(${rot}deg)`;
-        // slide.style.opacity = opc
       }
     }
   }
 
   /*************************************/
 
-  // slider.addEventListener("mousedown", () => {
-    
-  //   if (can_move) mouse = true;
-  // });
-
   slider.addEventListener("touchstart", () => {
     if (can_move) mouse = true;
   });
-  // slider.addEventListener("mouseup", () => {
-    
-  //   previousTouch = null;
-  //   fixed_slide();
-  // });
 
   slider.addEventListener("touchend", () => {
-    // console.log(last_force);
-    previousTouch = null;
-    fixed_slide(last_force);
+    previous_touch = null;
+    setCenter(last_force);
   });
 
   /*************************************/
-
-  let previousTouch;
 
   slider.addEventListener("touchmove", (e) => {
     e.preventDefault();
     const touch = e.touches[0];
 
-    if (previousTouch) {
-      move({ movementY: touch.pageY - previousTouch.pageY });
+    if (previous_touch) {
+      move({ movementY: touch.pageY - previous_touch.pageY });
     }
 
-    previousTouch = touch;
+    previous_touch = touch;
   });
 
-  // slider.addEventListener("mousemove", move);
-
-  slider.addEventListener("wheel", e => {
-    if (can_move) fixed_slide(e.deltaY > 0 ? -6 : 6);
-  })
+  slider.addEventListener("wheel", throttle((e) => {
+    if (can_move) setCenter(e.deltaY > 0 ? -6 : 6);
+  }))
 
   /*************************************/
 
-  move({ movementY: -1 }, true);
+  setCenter(null, false)
 
-  return "ok"
+  return {
+    len:   ( num  ) => num ? len = num : len,
+    count: (      ) => count,
+    next:  ( anim ) => setCenter(-6, anim),
+    prev:  ( anim ) => setCenter(6,  anim),
+  }
 }

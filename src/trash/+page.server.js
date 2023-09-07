@@ -1,7 +1,9 @@
 import { error } from "@sveltejs/kit";
 import fetch from "$lib/js/fetch.js";
+import { store } from "$lib/js/store";
 
-// export const ssr = true
+
+
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
@@ -62,7 +64,7 @@ export async function load({ params }) {
   ];
 
   if (posts) {
-    return { posts: posts };
+    store.posts = posts;
   }
   throw error(500, "err getting posts");
 }

@@ -6,6 +6,6 @@
   // console.log(id);
 </script>
 
-<h1> product {id} </h1>
+<h4 class="ta-center mt-50"> product {id} </h4>
 
-<button on:click={()=>history.back()}>dfdgd</button>
+<button class="mt-50 ta-center w-full" on:click={()=>history.back()}>go back</button>

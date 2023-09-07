@@ -1,11 +1,15 @@
 <script>
   export let src, def = "no_user.svg", alt = ""
+
+  // let loc_src = src
+
+  if (typeof Image !== "undefined") {
+    const img = new Image();
   
-  const img = new Image();
-  
-  img.src = src 
-  img.onload = () => def = src
+    img.src = src 
+    img.onerror = () => src = def
+  }
 </script>
 
-<img src={def} {alt} class={$$props.class}>
+<img src={src} {alt} class={$$props.class}>
 
