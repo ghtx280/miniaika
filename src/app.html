@@ -9,7 +9,19 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 		<script src="https://unpkg.com/blickcss"></script>
-		<script>blick.class.sq.vals={full:"100%"}</script>
+		<script>
+			blick.config({
+				class: {
+					sq: { vals: { full: "100%" } }
+				},
+				colors: {
+					dark:    {def: "#232931"},
+					primary: {def: "#393E46"},
+					brand:   {def: "#EA8B56"},
+					text:    {def: "#EEEEEE"} 
+				}
+			})
+		</script>
 		<link rel="stylesheet" href="/style.css">
 	</head>
 	<body data-sveltekit-preload-data="hover">

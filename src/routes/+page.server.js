@@ -1,14 +1,17 @@
+import fetch     from "$lib/js/fetch.js";
 import { error } from "@sveltejs/kit";
-import fetch from "$lib/js/fetch.js";
 import { store } from "$lib/js/store";
 
 
 
-
 /** @type {import('./$types').PageServerLoad} */
+
+
+
+
 export async function load({ params }) {
   let posts = await fetch.json(
-    "https://jsonplaceholder.typicode.com/photos?albumId=2&_limit=5"
+    "https://jsonplaceholder.typicode.com/photos?albumId=2&_limit=20"
   )
 
   let posts0 = [
@@ -64,7 +67,7 @@ export async function load({ params }) {
   ];
 
   if (posts) {
-    store.posts = posts;
+    return { posts }
   }
   throw error(500, "err getting posts");
 }

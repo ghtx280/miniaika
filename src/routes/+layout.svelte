@@ -1,19 +1,24 @@
 <script>
+	import { store } from '$lib/js/store.js';
   import Icon from "$lib/ui/Icon.svelte";
 
 </script>
 
-<div class="h-full flex-col p-15+10">
-  <div class="flex-center p-10">
-    <img src="/logo.svg" alt="miniaika" class="h-20">
-  </div>
+<div class="h-full flex-col">
+  {#if $store.header ?? true}
+    <div class="flex-center h-10%">
+      <img src="/logo.svg" alt="miniaika" class="h-20">
+    </div>
+  {/if}
+  
 
-  <div class="grow">
+  <div class="h-80%">
     <slot />
   </div>
 
 
-  <div class="flex-space px-25">
+
+  <div class="jc-se ai-c h-10%">
     <a href="/"><Icon name="home" active /></a>
     <a href="/"><Icon name="search" /></a>
     <a href="/"><Icon name="add"    /></a>
