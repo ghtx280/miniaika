@@ -1,8 +1,8 @@
 export function initSlider(slider = document.querySelector("#slider"), params = {}) {
   let len  = params.len || 0;
   let last_len = params.len || 0;
-  let step = params.step || 30;
-  let duration = params.duration || 200;
+  let step = params.step ?? 30;
+  let duration = params.duration ?? 200;
 
   /*************************************/
 
@@ -20,7 +20,7 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
   new MutationObserver(e => {
     count = 0
     max_len = 0
-    
+
     for (const slide of slides) {
       max_len = count * step;
       setupSlide(slide)
@@ -63,7 +63,7 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
   function setupSlide(slide) {
     slide.dataset.index = max_len;
     slide.dataset.angle = count % 2 ? -2 : 2
-    slide.style.transform = `translate3d(0,1000px,0)`;
+    slide.style.transform = `translate3d(0,0,0)`;
     slide.style.filter = "opacity(0)";
   }
 
@@ -119,18 +119,31 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
     let active = document.querySelector(`[data-index="${len}"]`);
     // active?.classList.add("active");
     pair = getPair(active);
+
+    for (const elem of slider.querySelectorAll(".pair") || []) {
+      elem?.classList.remove("pair");
+    }
+
+    for (const elem of pair) {
+      elem?.classList.add("pair");
+    }
     
     if (force == null || (!anim || !duration)) {
       move({ movementY: 0 }, true);
       return
     }
-    
+    // for (const elem of pair) {
+    //   elem.classList.add("fff")
+    // }
     slider?.classList.add("trans");
     move({ movementY: 0 }, true);
     can_move = false;
     setTimeout(
       () => {
         slider.classList?.remove("trans");
+        // for (const elem of pair) {
+        //   elem.classList.remove("fff")
+        // }
         can_move = true;
       },
       duration
@@ -166,7 +179,7 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
           rot = loc_pos * angle / 40
           opc = 1 - round(loc_pos / step) / 3
         } else {
-          pos = -loc_pos * 20;
+          pos = -loc_pos * 15;
           scl = 1;
           rot = 0;
           opc = 1 - -loc_pos / 30;
@@ -205,9 +218,12 @@ export function initSlider(slider = document.querySelector("#slider"), params = 
     previous_touch = touch;
   });
 
-  slider.addEventListener("wheel", throttle((e) => {
-    if (can_move) setCenter(e.deltaY > 0 ? -6 : 6);
-  }))
+  // if (innerWidth > 640) {
+    slider.addEventListener("wheel", throttle((e) => {
+      // console.log(e);
+      if (can_move) setCenter(e.deltaY > 0 ? -6 : 6);
+    }))
+  // }
 
   /*************************************/
 

@@ -40,9 +40,16 @@ button {
 }
 
 
-.trans div {
-  transition: all var(--time, 100ms) ease;
+.trans > div.pair {
+  transition:
+    transform var(--time, 100ms) linear,
+    filter var(--time, 100ms) linear;
 }
+
+.slider > div:not(.pair) {
+  display: none;
+}
+
 
 
 /* .slider { */

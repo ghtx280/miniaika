@@ -30,10 +30,16 @@
 
   // let numberArray = Array.from({length: count}, (_, i) => i + 1)
 
+  const len = $store.len
+
   function setupSlider(node) {
     initSlider(node, {
-      len: $store.len,
-      onchange(len) {  $store.len = len }
+      len,
+      duration: 200,
+      onchange(len) {
+        $store.len = len
+        // console.log(len);
+      }
     })
   }
 
