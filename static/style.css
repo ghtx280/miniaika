@@ -33,7 +33,7 @@ button {
 .slider > div {
   position: absolute;
   width: 90%; 
-  min-height: 70%;
+  min-height: 60%;
   background-color: #393E46;
   padding-bottom: 20px;
   will-change: transform;
