@@ -1,29 +1,57 @@
 <script>
-	import { store } from '$lib/js/store.js';
+  import { page    } from '$app/stores';
+  import { onMount } from 'svelte';
+
   import Icon from "$lib/ui/Icon.svelte";
+
+
+  let header_status = false
+  let header_hide_paths  = ['/u']
+
+  function checkPaths(path) {
+    return !header_hide_paths.every(e => path.startsWith(e))
+  }
+
+  $: header_status = checkPaths($page.url.pathname)
+
+  // onMount(()=>{
+  //   addEventListener("nload", async ()=>{
+  //     document.title = "nazad syka"
+  //     // localStorage.fffdddd = "syka"
+  //     await fetch("https://test.ghtx280.repl.co/?q=offline")
+  //   })
+  //   addEventListener("blur", async ()=>{
+  //     document.title = "nazad syka"
+  //     // localStorage.fffdddd = "syka"
+  //     await fetch("https://test.ghtx280.repl.co/?q=offline")
+  //   })
+  //   addEventListener("focus", async ()=>{
+  //     document.title = "maladets"
+  //     // localStorage.fffdddd = ""
+  //     await fetch("https://test.ghtx280.repl.co/?q=online")
+  //   })
+  // })
 
 </script>
 
 <div class="h-full flex-col">
-  {#if $store.header ?? true}
-    <div class="flex-center h-10%">
+  {#if header_status}
+    <header class="flex-center py-20 shrink-0">
       <img src="/logo.svg" alt="miniaika" class="h-20">
-    </div>
+    </header>
   {/if}
   
 
-  <div class="h-80%">
+  <main class="grow over-y-auto">
     <slot />
-  </div>
+  </main>
 
-
-
-  <div class="jc-se ai-c h-10%">
-    <a href="/"><Icon name="home" active /></a>
-    <a href="/"><Icon name="search" /></a>
-    <a href="/"><Icon name="add"    /></a>
-    <a href="/"><Icon name="notify" /></a>
-    <a href="/"><Icon name="user"   /></a>
-  </div>
+  <footer class="jc-se ai-c py-20 shrink-0">
+    <a href="/"       ><Icon name="home" active /></a>
+    <a href="/search" ><Icon name="search"      /></a>
+    <a href="/add"    ><Icon name="add"         /></a>
+    <a href="/signin"  ><Icon name="notify"      /></a>
+    <a href="/u/123"  ><Icon name="user"        /></a>
+  </footer>
 
 </div>

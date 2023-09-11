@@ -1,6 +1,6 @@
 <script>
 	import fetch          from '$lib/js/fetch.js';
-	import Card           from '$lib/comps/card.svelte';
+	import Slide           from '$lib/comps/slide.svelte';
 	import { store      } from '$lib/js/store.js';
   import { initSlider } from "$lib/js/slider"
   import { onMount    } from 'svelte';
@@ -39,7 +39,7 @@
 
     <div class="slider sq-full flex-center over-hidden" use:setupSlider>
       {#each $store.posts || [] as item (item.id)}
-        <Card {...item} />
+        <Slide {...item} />
       {/each}
 
       <div class="r-20 p-15+5 rel gap-15 flex-col flex-center">

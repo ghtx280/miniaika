@@ -13,13 +13,22 @@
 			blick.config({
 				class: {
 					sq: { vals: { full: "100%" } },
-					op: blick.class.opacity
+					op: blick.class.opacity,
+					flex: {
+						evenly: "justify-content: space-evenly",
+						around: "justify-content: space-around",
+					}
+				},
+				flex: {
+					evenly: "justify-content: space-evenly",
+					around: "justify-content: space-around",
 				},
 				colors: {
 					dark:    {def: "#232931"},
 					primary: {def: "#393E46"},
 					brand:   {def: "#EA8B56"},
-					text:    {def: "#EEEEEE"} 
+					text:    {def: "#EEEEEE"},
+					text_rgb:{def: "238, 238, 238"} 
 				}
 			})
 		</script>
