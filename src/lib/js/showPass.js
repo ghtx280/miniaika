@@ -1,7 +1,8 @@
 import { icon } from "./icon"
 
 export function showPass(node) {
-  const rect = node.getBoundingClientRect()
+  node.addEventListener("click", function(e) {
+    const rect = node.getBoundingClientRect()
 
   let top = rect.top
   let right = innerWidth - rect.right
@@ -12,7 +13,7 @@ export function showPass(node) {
   let eye = document.createElement("button")
 
   eye.style = `
-  position: absolute;
+  position: fixed;
   top:    ${top}px;
   right:  ${right}px;
   width:  ${size}px;
@@ -43,4 +44,5 @@ export function showPass(node) {
   eye.addEventListener("click", changeStatus)
   
   node.after(eye)
+  })
 }
