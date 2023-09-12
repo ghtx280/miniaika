@@ -50,7 +50,7 @@
     <a href="/"       ><Icon name="home" active /></a>
     <a href="/search" ><Icon name="search"      /></a>
     <a href="/add"    ><Icon name="add"         /></a>
-    <a href="/signin"  ><Icon name="notify"      /></a>
+    <a href="/login"  ><Icon name="notify"      /></a>
     <a href="/u/123"  ><Icon name="user"        /></a>
   </footer>
 

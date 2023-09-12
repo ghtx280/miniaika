@@ -1,66 +1,18 @@
 <script>
-	import { store } from '$lib/js/store.js';
-	import { href } from '$lib/js/href';
-	import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+  
+  import { showPass               } from "$lib/js/showPass";
+	import { store                  } from '$lib/js/store';
+  import { checkValid, inputValid } from '$lib/js/valid';
 
-  // let email
-  let hash
-
-  function showPass(node) {
-    const rect = node.getBoundingClientRect()
- 
-    let top = rect.top
-    let right = innerWidth - rect.right
-    let size = node.clientHeight
-    let status
-
-
-    let eye = document.createElement("button")
-
-    eye.style = `
-    position: absolute;
-    top:    ${top}px;
-    right:  ${right}px;
-    width:  ${size}px;
-    height: ${size}px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    opacity: 0.7;
-    `
-
-    eye.innerText = "🙈"
-    
-    eye.addEventListener("click", () => {
-      node.type = status ? "password" : "text"
-      eye.innerText = status ? "🙈" : "🐵" 
-
-      status = !status
-    })
-
-    // let img = document.createElement("img")
-    // img.src = ""
-
-    // eye.append(img)
-    node.after(eye)
-  }
-
-
-  onMount(() => {
-    hash = location.hash.slice(1)
-      addEventListener("hashchange", () => {
-        hash = location.hash.slice(1)
-      })
-  })
+  // code
   
 </script>
 
 
 <div class="h-full r-20 bg-$primary flex-col p-20">
 
-  {#if hash === "confirm"}
+  {#if $page.url.hash === "#confirm"}
 
     <div flex="15 col center grow" text="*:center">
       <h5 text="center">
@@ -80,7 +32,7 @@
       </a>
     </div>
 
-  {:else if  hash === "error"}
+  {:else if $page.url.hash === "#error"}
 
     <div flex="15 col center grow">
       <p>ERROR</p>
@@ -91,12 +43,12 @@
     <div flex="15 col center grow">
       <h5 class="mb-20">Реєстрація</h5>
 
-      <input type="text"     placeholder="Логін"   bind:value={$store.login}>
-      <input type="email"    placeholder="Е-Пошта" bind:value={$store.email}>
-      <input type="password" placeholder="Пароль"  bind:value={$store.passw} use:showPass  autocomplete="new-password">
+      <input type="text"     placeholder="Логін"   bind:value={$store.login} use:inputValid={"login"}>
+      <input type="email"    placeholder="Е-Пошта" bind:value={$store.email} use:inputValid={"email"}>
+      <input type="password" placeholder="Пароль"  bind:value={$store.passw} use:inputValid={"passw"} use:showPass autocomplete="new-password">
 
       <div class="mt-10 fs-14 op-50">
-        <a href="/signin">У мене вже є аккаунт</a>
+        <a href="/login">У мене вже є аккаунт</a>
       </div>
     </div>
 
