@@ -1,4 +1,25 @@
 <script>
+  import { icon } from "../js/icon";
+  
+  export let name, size = 24, color = "#eee";
+
+  let shortNames = {
+    find: "search",
+    add: "plus-circle",
+  }
+</script>
+
+
+
+{@html icon(shortNames[name] || name, size, color)}
+
+
+
+
+
+
+
+<!-- <script>
   export let name, size, stroke, color;
 
   // let div = <div></div>
@@ -42,21 +63,12 @@
       path`M26 6.9979V12.9995M26 12.9995H20M26 12.9995L21.36 8.63833C20.2853 7.56276 18.9556 6.77704 17.4952 6.3545C16.0348 5.93196 14.4911 5.88636 13.0083 6.22195C11.5255 6.55755 10.1518 7.2634 9.01547 8.27365C7.87913 9.2839 7.01717 10.5656 6.51 11.9992M4 23.0021V17.0005M4 17.0005H10M4 17.0005L8.64 21.3617C9.71475 22.4372 11.0444 23.223 12.5048 23.6455C13.9652 24.068 15.5089 24.1136 16.9917 23.778C18.4745 23.4425 19.8482 22.7366 20.9845 21.7263C22.1209 20.7161 22.9828 19.4344 23.49 18.0008`,
   };
 
-
-
-
-
-
-
-
   let icon = icons[name]
 
   if (!icon) {
     console.error(`Icon '${name}' not found`)
   }
 </script>
-
-
 
 <svg
   width={size}
@@ -66,4 +78,4 @@
   xmlns="http://www.w3.org/2000/svg"
 >
   {@html icon}
-</svg>
+</svg> -->

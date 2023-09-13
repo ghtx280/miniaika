@@ -1,8 +1,8 @@
 export function checkValid(type, value) {
   const regex = {
-    login: /^[a-z0-9_]{3,}$/,
-    email: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-    passw: /^[\w!@#$%^&*]{6,}$/,
+    login: /^[a-z0-9_]{3,16}$/,
+    email: /^[\w\-\.]{1,50}@([\w-]{1,10}\.)+[\w-]{2,4}$/,
+    passw: /^[\w!@#$%^&*]{6,12}$/,
   }
 
   return (typeof type == "string" ? regex[type] : type).test(value)
@@ -18,3 +18,4 @@ export function inputValid(node, type) {
     }
   })
 }
+

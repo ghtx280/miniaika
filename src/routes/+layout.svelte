@@ -3,6 +3,9 @@
   import { onMount } from 'svelte';
 
   import Icon from "$lib/ui/Icon.svelte";
+  import { icon } from '../lib/js/icon';
+
+
 
 
   let header_status = false
@@ -43,15 +46,16 @@
   
 
   <main class="grow over-y-auto">
-    <slot />
+    <slot /> 
   </main>
 
   <footer class="jc-se ai-c py-20 shrink-0">
-    <a href="/"       ><Icon name="home" active /></a>
-    <a href="/search" ><Icon name="search"      /></a>
-    <a href="/add"    ><Icon name="add"         /></a>
-    <a href="/login"  ><Icon name="notify"      /></a>
-    <a href="/u/123"  ><Icon name="user"        /></a>
+    <a href="/"       ><Icon name="home" /></a>
+    <a href="/search" ><Icon name="find" /></a>
+    <a href="/add"    ><Icon name="add"  /></a>
+    <a href="/login"  ><Icon name="bell" /></a>
+    <a href="/u/123"  ><Icon name="user" /></a>
+
   </footer>
 
 </div>

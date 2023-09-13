@@ -1,9 +1,24 @@
 <script>
-	import { showPass } from '$lib/js/showPass';
-	import { store    } from '$lib/js/store';
-  import { checkValid, inputValid } from '$lib/js/valid';
+  import { showPass   } from "../../lib/js/showPass";
+	import { store      } from "../../lib/js/store.js";
+  import { cookie     } from "../../lib/js/cookie";
+  import { db         } from "../../lib/js/db";
+  import { inputValid } from '../../lib/js/valid';
 
-  // code
+
+
+
+ 
+  async function login(params) {
+    let { data, error } = await db.auth.signin($store.email, $store.passw);
+    
+    console.log(data);
+
+    if (error) return alert(error)
+  }
+   
+
+  
 
 </script>
 
@@ -23,6 +38,6 @@
     </div>
   </div>
 
-  <button class="btn">Увійти</button>
+  <button class="btn" on:click={login}>Увійти</button>
 
 </div>

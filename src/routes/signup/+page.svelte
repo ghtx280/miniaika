@@ -6,6 +6,20 @@
   import { checkValid, inputValid } from '$lib/js/valid';
 
   // code
+
+  function ffdsf(params) {
+    fetch("http://127.0.0.1:4444/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify({
+        // login:    $store.email,
+        // email:    $store.email,
+        // password: $store.passw
+        login:    `"${$store.login}"`,
+        email:    `"${$store.email}"`,
+        password: `"${$store.passw}"`
+      })
+    })
+  }
   
 </script>
 
@@ -52,8 +66,8 @@
       </div>
     </div>
 
-    <a href="#confirm" class="btn">Далі</a>
-    <!-- <button class="btn">Далі</button> -->
+    <!-- <a href="#confirm" class="btn">Далі</a> -->
+    <button class="btn" on:click={ffdsf}>Далі</button>
 
   {/if}
 
