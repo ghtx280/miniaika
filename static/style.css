@@ -8,18 +8,29 @@
   height: 0;
 }
 
+[hidden] {
+  display: none;
+}
+
 html, body {
   height: 100%;
   /* max-height: 100%; */
 }
 
+
+
 body {
   background: #232931;
+  color: #EEEEEE;
   overflow: hidden;
 }
 
 body * {
-  color: #eee;
+  color: inherit;
+}
+
+a, svg, button, input {
+  color: inherit
 }
 
 body p {
@@ -46,11 +57,16 @@ input {
   width: 100%;
   padding: 15px;
   border-radius: 10px;
-  background: none;
+  background-color: transparent;
   color: var(--text);
   border-width: 1px;
   border-color: rgba(var(--text_rgb), 0.2);
   font-size: 14px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s;
 }
 
 

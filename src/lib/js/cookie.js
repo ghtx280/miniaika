@@ -13,11 +13,23 @@ export const cookie = {
   },
   get(name) {
     return decodeURIComponent(
-      (document.cookie + ";").match(new RegExp(name + "=(.*?);"))?.[1]
-    );
+      (document.cookie + ";").match(new RegExp(name + "=(.*?);"))?.[1] || ""
+    ) || null
   },
   del(name) {
     document.cookie =
       name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   },
+  on(name, callback){
+    let prev = cookie.get(name)
+    setInterval(() => {
+      let cur = cookie.get(name)
+      
+      if (cur !== prev) {
+        callback(prev, cur)
+      }
+      
+      prev = cur
+    }, 100);
+  }
 };

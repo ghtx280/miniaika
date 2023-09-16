@@ -1,15 +1,20 @@
 <script>
+	import { cookie } from '$lib/js/cookie.js';
   import { page    } from '$app/stores';
   import { onMount } from 'svelte';
 
   import Icon from "$lib/ui/Icon.svelte";
-  import { icon } from '../lib/js/icon';
+  // import icon from '$lib/js/icon';
 
 
 
 
   let header_status = false
   let header_hide_paths  = ['/u']
+
+
+
+  
 
   function checkPaths(path) {
     return !header_hide_paths.every(e => path.startsWith(e))

@@ -18,11 +18,11 @@ export const db = {
   auth: {
     async signin(email, password){
       if (!email || !password) {
-        return send.error("Fill the fields")
+        return send.error("Заповніть поля")
       }
 
       if (!check("email", email) || !check("passw", password)) {
-        return send.error("Fields is not valid")
+        return send.error("Перевірте правильність даних")
       }
 
       let { value, ok } = await fetch.json(
@@ -30,20 +30,34 @@ export const db = {
       )
 
       if (!ok) {
-        return send.error("Server error: " + value.message)
+        return send.error("Error: " + value?.message)
       }
 
-      cookie.set("token", value.token, 30)
+      cookie.set("auth-token", value.token, 30)
 
       return send.data(value)
     },
 
-
     async signup(login, email, password){
-      let data = await makeReq("auth/signup", "post", { login, email, password })
-      data = (await data.json()) || {}
+      if (!email || !password) {
+        return send.error("Заповніть поля")
+      }
 
-      console.log(data.token);
-    }
+      if (!check("login", login) || !check("email", email) || !check("passw", password)) {
+        return send.error("Перевірте правильність даних")
+      }
+
+      let { value, ok } = await fetch.json(
+        ...fetchParams("auth/signup", "POST", { login, email, password })
+      )
+
+      if (!ok) {
+        return send.error("Error: " + value?.message)
+      }
+
+      cookie.set("auth-token", value.token, 30)
+
+      return send.data(value)
+    },
   },
 }

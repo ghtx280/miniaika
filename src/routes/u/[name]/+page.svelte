@@ -69,14 +69,14 @@
       </div>
     </div>
 
-    <div flex="15">
+    <div flex="15" text="$dark">
 
       <button class="h-40 w-full bg-$brand r-10 flex-center" text="12 bold $dark">
         Написати
       </button>
 
       <button class="sq-40 bg-$brand r-10 flex-center shrink-0" use:dropMenu={menuFields}>
-        <Icon name="menu" color="var(--dark)" stroke=2.5 />
+        <Icon name="menu" color="var(--dark)" />
       </button>
 
     </div>

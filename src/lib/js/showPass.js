@@ -1,4 +1,4 @@
-import { icon } from "./icon"
+import icon from "./icon"
 
 export function showPass(node) {
   setTimeout(() => {
@@ -18,6 +18,7 @@ export function showPass(node) {
     right:  ${right}px;
     width:  ${size}px;
     height: ${size}px;
+    z-index: 99;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,8 +28,8 @@ export function showPass(node) {
 
     // eye.innerText = "🙈"
     let iconSize   = 20 
-    let iconEye    = icon("eye",     iconSize)
-    let iconEyeOff = icon("eye-off", iconSize)
+    let iconEye    = icon.eye(iconSize)
+    let iconEyeOff = icon.eyeOff(iconSize)
     
 
 

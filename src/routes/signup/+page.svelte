@@ -1,24 +1,21 @@
 <script>
 	import { page } from '$app/stores';
   
-  import { showPass               } from "$lib/js/showPass";
-	import { store                  } from '$lib/js/store';
-  import { checkValid, inputValid } from '$lib/js/valid';
+  import { showPass   } from "$lib/js/showPass";
+	import { store      } from '$lib/js/store';
+  import { inputValid } from '$lib/js/valid';
+  import { db         } from '$lib/js/db';
 
   // code
 
-  function ffdsf(params) {
-    fetch("http://127.0.0.1:4444/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        // login:    $store.email,
-        // email:    $store.email,
-        // password: $store.passw
-        login:    `"${$store.login}"`,
-        email:    `"${$store.email}"`,
-        password: `"${$store.passw}"`
-      })
-    })
+  async function signup() {
+    let { data, error } = await db.auth.signup($store.login, $store.email, $store.passw)
+
+    if (error) {
+      return alert(error)
+    }
+
+    location.hash = "confirm"
   }
   
 </script>
@@ -46,11 +43,11 @@
       </a>
     </div>
 
-  {:else if $page.url.hash === "#error"}
+  <!-- {:else if $page.url.hash === "#error"}
 
     <div flex="15 col center grow">
       <p>ERROR</p>
-    </div>
+    </div> -->
 
   {:else}
 
@@ -67,7 +64,7 @@
     </div>
 
     <!-- <a href="#confirm" class="btn">Далі</a> -->
-    <button class="btn" on:click={ffdsf}>Далі</button>
+    <button class="btn" on:click={signup}>Далі</button>
 
   {/if}
 

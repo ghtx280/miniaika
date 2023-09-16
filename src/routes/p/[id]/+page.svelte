@@ -24,6 +24,9 @@
 
   // let menu
   let post = data.post[0] || {}
+
+
+  console.log(post);
  
 </script>
 <!-- 
@@ -47,7 +50,7 @@
     <div class="flex-space p-15">
       <a href="/u/{post.title.split(" ")[0]}" class="gap-10 ai-c">
         <Img src="{ post.thumbnailUrl }" class="round sq-30 ava_img" />
-        <p class="fs-12 fw-500">{ post.title.split(" ")[0] }</p>
+        <p class="fs-12 fw-500">{ post.title?.split(" ")[0] }</p>
       </a>
       <button use:dropMenu={menuFields}>
         <Icon name="menu"/>
@@ -85,13 +88,13 @@
 
   </div>
 
-  <div class="gap-15 p-15">
-    <a href="#/" class="bg-#EA8B56 r-10 h-40 w-full c-#232931 fs-14 bold flex-center">
+  <div flex="15" text="$dark" class="p-15">
+    <a href="#/" class="bg-$brand r-10 h-40 w-full" text="14 bold" flex="center">
       Обміняти
     </a>
 
-    <button class="bg-#EA8B56 r-10 h-40 w-40 shrink-0 flex-center">
-      <Icon name="like" color="#232931"/>
+    <button class="bg-$brand r-10 sq-40" flex="center shrink-0">
+      <Icon name="like" stroke=1.5 />
     </button>
   </div>
 

@@ -9,6 +9,7 @@
 
   $store.posts = data.posts || []
 
+
   // async function get() {
   //   if (!$store.posts) {
   //     $store.posts = await fetch.json(

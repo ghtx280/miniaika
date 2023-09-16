@@ -1,4 +1,6 @@
-function createParams(params) {
+import { toObj } from "./toObj";
+
+function createParams(params = {}) {
   const types = {
     json:  'application/json',
     xml:   'application/xml',
@@ -26,16 +28,17 @@ function createParams(params) {
   let data = {}
   
   let method  = params.method  || 'GET';
-  let type    = params.type    || '';
-  let headers = params.headers || '';
-  let body    = params.body    || '';
+  let headers = params.headers || null;
+  let type    = params.type    || null;
+  let body    = params.body    || null;
 
   data.method = method.toUpperCase();
  
   if (body) {
-    data.body = typeof body === "object" ? JSON.stringify(body) : body 
+    data.body = typeof body === "object" ? JSON.stringify(body) : body.toString()
   }
   if (headers || type) {
+    headers ||= {}
     if (type) headers["Content-Type"] = types[type]
     data.headers = headers
   }
@@ -44,11 +47,12 @@ function createParams(params) {
 }
 
 async function createFetch(url, params, resolveMethod) {
+  // console.log(url, createParams(params));
   try {
-    let promise = await fetch(url, createParams(params))
+    let promise = await fetch(url, params ? createParams(params) : undefined)
 
     return {
-      ...promise, value: await promise[resolveMethod]()
+      ...toObj(promise), value: await promise[resolveMethod]()
     }
   }
   catch (error) { return { err: error.toString() } }

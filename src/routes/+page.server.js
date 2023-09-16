@@ -10,7 +10,7 @@ import { store } from "$lib/js/store";
 
 
 export async function load({ params }) {
-  let posts = await fetch.json(
+  let { value } = await fetch.json(
     "https://jsonplaceholder.typicode.com/photos?albumId=2&_limit=20"
   )
 
@@ -66,8 +66,8 @@ export async function load({ params }) {
     },
   ];
 
-  if (posts) {
-    return { posts }
+  if (value) {
+    return { posts: value }
   }
   throw error(500, "err getting posts");
 }

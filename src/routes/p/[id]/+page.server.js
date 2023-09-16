@@ -11,9 +11,9 @@ import { store } from "$lib/js/store";
 
 export async function load({ params: { id } }) {
 
-  let post = await fetch.json(
+  let post = (await fetch.json(
     "https://jsonplaceholder.typicode.com/photos?id=" + id
-  )
+  )).value
 
   if (post) {
     return { post }
