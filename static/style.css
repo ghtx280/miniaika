@@ -29,7 +29,7 @@ body * {
   color: inherit;
 }
 
-a, svg, button, input {
+a, svg, button, input, textarea, select {
   color: inherit
 }
 
@@ -40,6 +40,7 @@ body p {
 button {
   background: none;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .btn {
@@ -53,7 +54,7 @@ button {
   text-align: center;
 }
 
-input {
+input, textarea, select, .inp {
   width: 100%;
   padding: 15px;
   border-radius: 10px;
@@ -62,6 +63,7 @@ input {
   border-width: 1px;
   border-color: rgba(var(--text_rgb), 0.2);
   font-size: 14px;
+  text-align: left;
 }
 
 input:-webkit-autofill,
